@@ -2,18 +2,49 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
 import UserCartItemsContent from "./cart-items-content";
+import { useDispatch } from "react-redux";
+import { removeItemsByShop } from "@/store/shop/cart-slice";
+import axios from "axios";
 
-function UserCartWrapper({ cartItems, setOpenCartSheet }) {
+function UserCartWrapper({ cartItems, setCartItems, setOpenCartSheet }) {
   const navigate = useNavigate();
   const items = cartItems || [];
 
-  // Group items by shopName
+  // Group items by shopId, keep shopName for display
   const groupedItems = items.reduce((acc, item) => {
-    const shop = item.flower.shopOwner.name || "Unknown Shop";
-    if (!acc[shop]) acc[shop] = [];
-    acc[shop].push(item);
+    const shopId = item.flower.shopOwner.id;
+    const shopName = item.flower.shopOwner.name || "Unknown Shop";
+
+    if (!acc[shopId]) {
+      acc[shopId] = { shopName, items: [] };
+    }
+    acc[shopId].items.push(item);
     return acc;
   }, {});
+
+  const dispatch = useDispatch();
+
+  const handleCheckout = async (shopId, items) => {
+    try {
+      const userId = localStorage.getItem("userId"); // fixed key as string
+
+      // Call backend API to remove items from this shop's cart
+      await axios.delete(`http://localhost:8765/USERMICROSERVICE/cart/removeByShop`, {
+        params: { userId, shopId },
+      });
+
+      // Optionally update Redux state to remove these items
+      dispatch(removeItemsByShop(shopId));
+
+      // Navigate to checkout page with items
+      navigate("/shop/checkoutflow", { state: { items } });
+
+      setOpenCartSheet(false);
+    } catch (error) {
+      console.error("Failed to remove items by shop", error);
+      alert("Failed to proceed to checkout. Please try again.");
+    }
+  };
 
   return (
     <SheetContent className="sm:max-w-md overflow-y-auto">
@@ -23,8 +54,8 @@ function UserCartWrapper({ cartItems, setOpenCartSheet }) {
 
       <div className="mt-6 space-y-6">
         {Object.entries(groupedItems).length > 0 ? (
-          Object.entries(groupedItems).map(([name, items]) => {
-            const total = items.reduce(
+          Object.entries(groupedItems).map(([shopId, { shopName, items: shopItems }]) => {
+            const total = shopItems.reduce(
               (sum, item) =>
                 sum +
                 (item.flower?.salePrice > 0 ? item.flower.salePrice : item.flower.price) *
@@ -33,11 +64,11 @@ function UserCartWrapper({ cartItems, setOpenCartSheet }) {
             );
 
             return (
-              <div key={name} className="border p-4 rounded-lg bg-[#FFF2F0] space-y-4">
-                <h3 className="font-semibold text-lg text-[#81504D]">{name}</h3>
+              <div key={shopId} className="border p-4 rounded-lg bg-[#FFF2F0] space-y-4">
+                <h3 className="font-semibold text-lg text-[#81504D]">{shopName}</h3>
 
                 <div className="space-y-3">
-                  {items.map((item) => (
+                  {shopItems.map((item) => (
                     <UserCartItemsContent key={item.id} cartItem={item} />
                   ))}
                 </div>
@@ -48,13 +79,10 @@ function UserCartWrapper({ cartItems, setOpenCartSheet }) {
                 </div>
 
                 <Button
-                  onClick={() => {
-                    navigate("/shop/checkoutflow", { state: { items } });
-                    setOpenCartSheet(false);
-                  }}
+                  onClick={() => handleCheckout(shopId, shopItems)} // pass correct params here
                   className="w-full mt-2"
                 >
-                  Checkout from {name}
+                  Checkout from {shopName}
                 </Button>
               </div>
             );
@@ -68,127 +96,3 @@ function UserCartWrapper({ cartItems, setOpenCartSheet }) {
 }
 
 export default UserCartWrapper;
-
-// import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { Button } from "../ui/button";
-// import { SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
-// import UserCartItemsContent from "./cart-items-content";
-// import { useSelector } from "react-redux";
-// import flower1 from "../../assets/flower1.jpg";
-
-// // Dummy cart items with shopName added
-// const initialDummyCartItems = [
-//   {
-//     productId: 1,
-//     name: "Product 1",
-//     price: 20,
-//     salePrice: 15,
-//     quantity: 2,
-//     imageUrl: flower1,
-//     isDummy: true,
-//     shopName: "Thimphu Flower Boutique",
-//   },
-//   {
-//     productId: 2,
-//     name: "Product 2",
-//     price: 50,
-//     salePrice: 45,
-//     quantity: 1,
-//     imageUrl: flower1,
-//     isDummy: true,
-//     shopName: "Bloom & Petals",
-//   },
-//   {
-//     productId: 3,
-//     name: "Product 3",
-//     price: 40,
-//     salePrice: 0,
-//     quantity: 1,
-//     imageUrl: flower1,
-//     isDummy: true,
-//     shopName: "Thimphu Flower Boutique",
-//   },
-// ];
-
-// function UserCartWrapper({ setOpenCartSheet }) {
-//   const navigate = useNavigate();
-//   const { cartItems: reduxCartItems } = useSelector((state) => state.shopCart);
-//   const [dummyCart, setDummyCart] = useState(initialDummyCartItems);
-
-//   const finalCartItems = reduxCartItems?.length ? reduxCartItems : dummyCart;
-
-//   // Update quantity or remove from dummy cart
-//   function updateDummyCart(productId, action) {
-//     setDummyCart((prevCart) => {
-//       return prevCart
-//         .map((item) => {
-//           if (item.productId === productId) {
-//             if (action === "plus") return { ...item, quantity: item.quantity + 1 };
-//             if (action === "minus" && item.quantity > 1) return { ...item, quantity: item.quantity - 1 };
-//           }
-//           return item;
-//         })
-//         .filter((item) => !(action === "delete" && item.productId === productId));
-//     });
-//   }
-
-//   // Group items by shop name
-//   const groupedItems = finalCartItems.reduce((acc, item) => {
-//     const shop = item.shopName || "Unknown Shop";
-//     if (!acc[shop]) acc[shop] = [];
-//     acc[shop].push(item);
-//     return acc;
-//   }, {});
-
-//   return (
-//     <SheetContent className="sm:max-w-md overflow-y-auto">
-//       <SheetHeader>
-//         <SheetTitle>Your Cart</SheetTitle>
-//       </SheetHeader>
-
-//       <div className="mt-6 space-y-6">
-//         {Object.entries(groupedItems).map(([shopName, items]) => {
-//           const total = items.reduce(
-//             (sum, item) =>
-//               sum + (item.salePrice > 0 ? item.salePrice : item.price) * item.quantity,
-//             0
-//           );
-
-//           return (
-//             <div key={shopName} className="border p-4 rounded-lg bg-[#FFF2F0] space-y-4">
-//               <h3 className="font-semibold text-lg text-[#81504D]">{shopName}</h3>
-
-//               <div className="space-y-3">
-//                 {items.map((item) => (
-//                   <UserCartItemsContent
-//                     key={item.productId}
-//                     cartItem={item}
-//                     updateDummyCart={updateDummyCart}
-//                   />
-//                 ))}
-//               </div>
-
-//               <div className="flex justify-between font-semibold text-[#81504D]">
-//                 <span>Total</span>
-//                 <span>Nu.{total.toFixed(2)}</span>
-//               </div>
-
-//               <Button
-//                 onClick={() => {
-//                   navigate("/shop/checkoutflow", { state: { items } });
-//                   setOpenCartSheet(false);
-//                 }}
-//                 className="w-full mt-2"
-//               >
-//                 Checkout from {shopName}
-//               </Button>
-//             </div>
-//           );
-//         })}
-//       </div>
-//     </SheetContent>
-//   );
-// }
-
-// export default UserCartWrapper;

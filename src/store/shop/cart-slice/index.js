@@ -95,7 +95,14 @@ export const updateCartQuantity = createAsyncThunk(
 const shoppingCartSlice = createSlice({
   name: "shoppingCart",
   initialState,
-  reducers: {},
+  reducers: {
+      removeItemsByShop: (state, action) => {
+      const shopNameToRemove = action.payload;
+      state.cartItems = state.cartItems.filter(
+        (item) => item.flower.shopOwner.name !== shopNameToRemove
+      );
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(addToCart.pending, (state) => {
@@ -148,5 +155,5 @@ const shoppingCartSlice = createSlice({
       });
   },
 });
-
+export const { removeItemsByShop } = shoppingCartSlice.actions;
 export default shoppingCartSlice.reducer;

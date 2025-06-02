@@ -325,7 +325,15 @@ const useGoogleMaps = () => {
 const CheckoutFlow = () => {
   const location = useLocation();
   const cartItems = location.state?.items || [];
+  
+  const shopId = cartItems.length > 0 ? cartItems[0].flower.shopOwner.id : null;
+console.log(shopId)
+const userInfoString = localStorage.getItem("userInfo");
+const userInfo = JSON.parse(userInfoString); // Convert string to object
 
+console.log(userInfo);
+const customerEmail = userInfo.user.username;
+console.log(customerEmail)
   const mapsLoaded = useGoogleMaps(); // Ensure Google Maps is ready
   const [step, setStep] = useState(1);
   const [deliveryOption, setDeliveryOption] = useState('pickup');
@@ -367,38 +375,87 @@ const CheckoutFlow = () => {
     }
   }, [deliveryOption, mapsLoaded]);
 
+  // const handleGeolocation = () => {
+  //   if (navigator.geolocation && mapInstanceRef.current) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         const pos = {
+  //           lat: position.coords.latitude,
+  //           lng: position.coords.longitude,
+  //         };
+
+  //         infoWindowRef.current.setPosition(pos);
+  //         infoWindowRef.current.setContent("Location found.");
+  //         infoWindowRef.current.open(mapInstanceRef.current);
+  //         mapInstanceRef.current.setCenter(pos);
+
+  //         // Convert to address using Geocoder (optional)
+  //         const geocoder = new window.google.maps.Geocoder();
+  //         geocoder.geocode({ location: pos }, (results, status) => {
+  //           if (status === "OK" && results[0]) {
+  //             setAddress(results[0].formatted_address);
+  //           } else {
+  //             setAddress(`Lat: ${pos.lat}, Lng: ${pos.lng}`);
+  //           }
+  //         });
+  //       },
+  //       () => {
+  //         alert("Geolocation failed.");
+  //       }
+  //     );
+  //   } else {
+  //     alert("Geolocation not supported by your browser.");
+  //   }
+  // };
   const handleGeolocation = () => {
-    if (navigator.geolocation && mapInstanceRef.current) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
+  if (navigator.geolocation && mapInstanceRef.current) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
 
-          infoWindowRef.current.setPosition(pos);
-          infoWindowRef.current.setContent("Location found.");
-          infoWindowRef.current.open(mapInstanceRef.current);
-          mapInstanceRef.current.setCenter(pos);
+        infoWindowRef.current.setPosition(pos);
+        infoWindowRef.current.setContent("Location found.");
+        infoWindowRef.current.open(mapInstanceRef.current);
+        mapInstanceRef.current.setCenter(pos);
 
-          // Convert to address using Geocoder (optional)
-          const geocoder = new window.google.maps.Geocoder();
-          geocoder.geocode({ location: pos }, (results, status) => {
-            if (status === "OK" && results[0]) {
-              setAddress(results[0].formatted_address);
-            } else {
-              setAddress(`Lat: ${pos.lat}, Lng: ${pos.lng}`);
-            }
-          });
-        },
-        () => {
-          alert("Geolocation failed.");
-        }
-      );
-    } else {
-      alert("Geolocation not supported by your browser.");
-    }
-  };
+        // Always use GCIT for current location
+        setAddress("GCIT, Kabesa, Thimphu");
+
+        // Optional: try reverse geocoding anyway (for fallback or debugging)
+        const geocoder = new window.google.maps.Geocoder();
+        geocoder.geocode({ location: pos }, (results, status) => {
+          if (status === "OK" && results[0]) {
+            // Uncomment if you want to show real geocoded address instead of GCIT
+            // setAddress(results[0].formatted_address);
+          } else {
+            // Handle fallback for raw lat/lng ranges
+            const fallbackAddress = getLocationNameFromCoordinates(pos.lat, pos.lng);
+            setAddress(fallbackAddress);
+          }
+        });
+      },
+      () => {
+        alert("Geolocation failed.");
+      }
+    );
+  } else {
+    alert("Geolocation not supported by your browser.");
+  }
+};
+
+// Function to map coordinates to known location names
+const getLocationNameFromCoordinates = (lat, lng) => {
+  if (lat >= 27.47 && lat <= 27.48 && lng >= 89.63 && lng <= 89.64) {
+    return "Motithang, Thimphu";
+  }  else {
+ 
+    return "GCIT, Kabesa, Thimphu";
+  
+  }
+};
 
   const StepIndicator = () => (
     <div className="flex justify-center items-center gap-20 mb-10 text-[#81504D] text-base">
@@ -543,13 +600,27 @@ const CheckoutFlow = () => {
         ))}
 
         {paymentMethod === 'Stripe' && (
-          // <StripeCheckoutForm
-          //   payload={{ amount: total, address, deliveryOption, cartItems }}
-          //   onSuccess={nextStep}
-          // />
-            <StripeWrapper>
-    <CheckoutForm amount={total} address={address} onSuccess={nextStep} />
-  </StripeWrapper>
+         
+  //           <StripeWrapper>
+  //   <CheckoutForm amount={total} address={address} onSuccess={nextStep} />
+  // </StripeWrapper>
+  <StripeWrapper>
+  <CheckoutForm
+    amount={total}
+    address={address}
+    customerEmail={customerEmail} // Replace with real email if available
+    deliveryOption={deliveryOption}
+    paymentMethod={paymentMethod}
+    shopId={shopId}
+    items={cartItems.map(item => ({
+      productName: item.flower.name,
+      quantity: item.quantity,
+      price: item.flower.salePrice > 0 ? item.flower.salePrice : item.flower.price
+    }))}
+    onSuccess={nextStep}
+  />
+</StripeWrapper>
+
         )}
       </div>
 
@@ -568,8 +639,24 @@ const CheckoutFlow = () => {
   const ConfirmationStep = () => (
     <div className="flex flex-col items-center w-full max-w-2xl">
       <h2 className="text-3xl font-semibold mb-6 text-[#81504D]">Confirm Order</h2>
+     
       <StepIndicator />
       <div className="w-full space-y-6 bg-[#FFF2F0] p-6 rounded-lg text-[#81504D]">
+        <div>
+          <h3 className="text-lg font-semibold text-[#81504D] mb-1">Delivery detail</h3>
+    {deliveryOption === 'pickup' ? (
+            <>
+              <p className="font-semibold text-[#81504D]">Pick up Store</p>
+              <p className="text-sm text-gray-600">Lower Motithang, Thimphu</p>
+              <p className="text-sm text-gray-600">Street 43, Near Store45</p>
+            </>
+          ) : (
+            <>
+              <p className="font-semibold text-[#81504D]">Home Delivery</p>
+              <p className="text-sm text-gray-600">{address}</p>
+            </>
+          )}
+        </div>
         <h3 className="font-semibold text-lg">Your Items</h3>
         <div>
           {cartItems.length === 0 && (

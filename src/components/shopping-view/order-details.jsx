@@ -8,73 +8,82 @@ function ShoppingOrderDetailsView({ orderDetails }) {
   const { user } = useSelector((state) => state.auth);
 
   return (
-    <DialogContent className="sm:max-w-[600px]">
-      <div className="grid gap-6">
-        <div className="grid gap-2">
-          <div className="flex mt-6 items-center justify-between">
-            <p className="font-medium">Order ID</p>
-            <Label>{orderDetails?._id}</Label>
-          </div>
-          <div className="flex mt-2 items-center justify-between">
-            <p className="font-medium">Order Date</p>
-            <Label>{orderDetails?.orderDate.split("T")[0]}</Label>
-          </div>
-          <div className="flex mt-2 items-center justify-between">
-            <p className="font-medium">Order Price</p>
-            <Label>${orderDetails?.totalAmount}</Label>
-          </div>
-          <div className="flex mt-2 items-center justify-between">
-            <p className="font-medium">Payment method</p>
-            <Label>{orderDetails?.paymentMethod}</Label>
-          </div>
-          <div className="flex mt-2 items-center justify-between">
-            <p className="font-medium">Payment Status</p>
-            <Label>{orderDetails?.paymentStatus}</Label>
-          </div>
-          <div className="flex mt-2 items-center justify-between">
-            <p className="font-medium">Order Status</p>
-            <Label>
+    <DialogContent className="sm:max-w-[650px] p-6">
+      <div className="grid gap-8">
+        {/* Order Summary */}
+        <div>
+          <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
+          <div className="space-y-3">
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Order ID</span>
+              <Label>{orderDetails?.id}</Label>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Order Date</span>
+              <Label>{orderDetails?.createdAt?.split("T")[0]}</Label>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Total Amount</span>
+              <Label>${orderDetails?.total_amount}</Label>
+            </div>
+          
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Payment Method</span>
+              <Label>{orderDetails?.paymentMethod || "N/A"}</Label>
+            </div>
+
+            
+            <div className="flex justify-between items-center">
+              <span className="text-muted-foreground">Payment Status</span>
               <Badge
-                className={`py-1 px-3 ${
-                  orderDetails?.orderStatus === "confirmed"
-                    ? "bg-green-500"
-                    : orderDetails?.orderStatus === "rejected"
-                    ? "bg-red-600"
-                    : "bg-black"
+                className={`py-1 px-3 text-white ${
+                  orderDetails?.payment_success ? "bg-green-500" : "bg-red-600"
                 }`}
               >
-                {orderDetails?.orderStatus}
+                {orderDetails?.payment_success ? "Success" : "Failed"}
               </Badge>
-            </Label>
+            </div>
           </div>
         </div>
+
         <Separator />
-        <div className="grid gap-4">
-          <div className="grid gap-2">
-            <div className="font-medium">Order Details</div>
-            <ul className="grid gap-3">
-              {orderDetails?.cartItems && orderDetails?.cartItems.length > 0
-                ? orderDetails?.cartItems.map((item) => (
-                    <li className="flex items-center justify-between">
-                      <span>Title: {item.title}</span>
-                      <span>Quantity: {item.quantity}</span>
-                      <span>Price: ${item.price}</span>
-                    </li>
-                  ))
-                : null}
+
+        {/* Items List */}
+        <div>
+          <h2 className="text-lg font-semibold mb-4">Ordered Items</h2>
+          {orderDetails?.items?.length > 0 ? (
+            <ul className="space-y-2">
+              {orderDetails.items.map((item) => (
+                <li
+                  key={item.id}
+                  className="flex justify-between items-center border rounded-md px-4 py-2"
+                >
+                  <span className="font-medium">{item.productName}</span>
+                  <span className="text-sm">Qty: {item.quantity}</span>
+                  <span className="text-sm text-muted-foreground">
+                    ${item.price}
+                  </span>
+                </li>
+              ))}
             </ul>
-          </div>
+          ) : (
+            <p className="text-sm text-muted-foreground">No items found.</p>
+          )}
         </div>
-        <div className="grid gap-4">
-          <div className="grid gap-2">
-            <div className="font-medium">Shipping Info</div>
-            <div className="grid gap-0.5 text-muted-foreground">
-              <span>{user.userName}</span>
-              <span>{orderDetails?.addressInfo?.address}</span>
-              <span>{orderDetails?.addressInfo?.city}</span>
-              <span>{orderDetails?.addressInfo?.pincode}</span>
-              <span>{orderDetails?.addressInfo?.phone}</span>
-              <span>{orderDetails?.addressInfo?.notes}</span>
+
+        <Separator />
+
+        {/* Shipping Info */}
+        <div>
+          <h2 className="text-lg font-semibold mb-4">Shipping Information</h2>
+          <div className="space-y-1 text-sm text-muted-foreground">
+            <div>
+              <span className="font-medium text-foreground">Customer Email:</span>{" "}
+              {orderDetails?.customerEmail}
+            </div>
+            <div>
+              <span className="font-medium text-foreground">Address:</span>{" "}
+              {orderDetails?.address || "N/A"}
             </div>
           </div>
         </div>
