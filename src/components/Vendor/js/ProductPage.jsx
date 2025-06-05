@@ -193,12 +193,12 @@ const ProductPage = () => {
                     src={product.image.startsWith("http") ? product.image : `http://localhost:8765/USERMICROSERVICE/images/${product.image}`}
                     onError={(e) => e.target.src = "/default-product.png"}
                     alt="product"
-                    className="w-full h-40 object-cover"
+                    className="w-full h-40 object-cover" style={{ borderRadius: "8px", marginTop: "10px" }}
                   />
-                  <h4 className="name">{product.name}</h4>
-                  <p className="description">{product.details}</p>
+                  <h4 className="name" style={{ fontWeight:"bolder", color: "black"}}>{product.name}</h4>
+                  <p className="description" style={{textAlign:"center"}}>{product.details}</p>
                   <p className="quantity">Quantity: {product.quantity}</p>
-                  <div className="actions">
+                  <div className="actions" style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px", paddingTop: "10px" }}>
                     <button
                       onClick={() => {
                         setEditProduct(product);
