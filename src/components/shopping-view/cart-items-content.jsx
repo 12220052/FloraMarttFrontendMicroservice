@@ -1,16 +1,19 @@
 import { Minus, Plus, Trash } from "lucide-react";
 import { Button } from "../ui/button";
+import { useEffect } from "react"; 
+
 import { useDispatch, useSelector } from "react-redux";
  import { deleteCartItem, updateCartQuantity,fetchCartItems } from "@/store/shop/cart-slice";
-import { useToast } from "../ui/use-toast";
-
+// import { useToast } from "../ui/use-toast";
+import { toast, ToastContainer } from "react-toastify"; // Correct toast import
+import "react-toastify/dist/ReactToastify.css";
 function UserCartItemsContent({ cartItem }) {
   const { user } = useSelector((state) => state.auth);
  const userId =localStorage.getItem("userId")
   const { cartItems } = useSelector((state) => state.shopCart);
   const { productList } = useSelector((state) => state.shopProducts);
   const dispatch = useDispatch();
-  const { toast } = useToast();
+  // const { toast } = useToast(); 
 
 function handleUpdateQuantity(getCartItem, typeOfAction) {
   if (typeOfAction === "plus") {
@@ -63,22 +66,41 @@ console.log(productList)
     })
   ).then((data) => {
     if (data?.payload){
-        toast({
-          title: "Cart item is updated successfully",
-        });
+        toast.success(
+       "Cart item is updated successfully",
+           {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      }
+        );
          dispatch(fetchCartItems(userId));
       }
   });
 }
+useEffect(() => {
+  console.log("Cart items after update:", cartItems);
+}, [cartItems]);
 
   function handleCartItemDelete(getCartItem) {
     dispatch(
       deleteCartItem({ userId, flowerId: getCartItem.flower.flower_id })
     ).then((data) => {
       if (data?.payload){
-        toast({
-          title: "Cart item is deleted successfully",
-        });
+        toast.success(
+        "Cart item is deleted successfully",
+         {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      }
+        );
          dispatch(fetchCartItems(userId));
       }
       
@@ -87,6 +109,7 @@ console.log(productList)
 
  return (
   <div className="flex items-center space-x-4">
+    <ToastContainer/>
     <img
       src={cartItem?.flower?.image}
       alt={cartItem?.flower?.name}

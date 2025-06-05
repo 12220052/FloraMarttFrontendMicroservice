@@ -148,7 +148,7 @@ function ShoppingOrders() {
       })
       .catch(() => setLoading(false));
   }, [customerEmail]);
-// console.log(orders)
+console.log(orders)
   return (
     <Card>
       <CardHeader>
@@ -160,11 +160,13 @@ function ShoppingOrders() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Order ID</TableHead>
+              {/* <TableHead>Order ID</TableHead> */}
               <TableHead>Order Date</TableHead>
-              <TableHead>Order Status</TableHead>
+              <TableHead>Payment Status</TableHead>
+              
               <TableHead>Delivery Option</TableHead>
               <TableHead>Order Price</TableHead>
+                <TableHead>Order Status</TableHead>
               <TableHead>
                 <span className="sr-only">Details</span>
               </TableHead>
@@ -173,7 +175,7 @@ function ShoppingOrders() {
           <TableBody>
             {orders.map((order) => (
               <TableRow key={order.id}>
-                <TableCell>{order.id}</TableCell>
+                {/* <TableCell>{order.id}</TableCell> */}
                 <TableCell>{order.createdAt.split("T")[0]}</TableCell>
                 <TableCell>
                   <Badge
@@ -181,11 +183,12 @@ function ShoppingOrders() {
                       order.payment_success ? "bg-green-500" : "bg-red-600"
                     }`}
                   >
-                    {order.payment_success ? "Confirmed" : "Failed"}
+                    {order.payment_success ? "Success" : "Failed"}
                   </Badge>
                 </TableCell>
                 <TableCell>{order.deliveryOption}</TableCell>
                 <TableCell>${order.total_amount}</TableCell>
+                <TableCell>{order.orderStatus}</TableCell>
                 <TableCell>
                   <Button
                     onClick={() => {

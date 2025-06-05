@@ -6,7 +6,8 @@ import {
 } from "@stripe/react-stripe-js";
 
 import axios from "axios";
-
+import { toast, ToastContainer } from "react-toastify"; // Correct toast import
+import "react-toastify/dist/ReactToastify.css"; 
 const CheckoutForm = ({ amount, address, customerEmail, deliveryOption, paymentMethod,shopId, items, onSuccess }) => {
   const stripe = useStripe();
   const elements = useElements();
@@ -90,8 +91,8 @@ function Modal({ message, onClose }) {
           shopId,
           items
         });
-   alert("Payment processing failed. Please try again.");
-        setModalMessage("Payment successful! Order placed.");
+  //  alert("Payment processing failed. Please try again.");
+       toast.success("Payment successful! Order placed.");
 setShowModal(true);
 
         onSuccess();
@@ -109,6 +110,7 @@ setShowModal(true);
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+         <ToastContainer/>
       <CardElement
         options={{
           style: {
@@ -121,6 +123,7 @@ setShowModal(true);
         }}
         className="border rounded p-3 bg-white"
       />
+   
       <button
         type="submit"
         disabled={!stripe || !elements || loading}
