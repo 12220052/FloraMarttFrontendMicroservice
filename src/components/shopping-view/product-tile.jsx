@@ -19,6 +19,12 @@ function ShoppingProductTile({
       <img
   src={product.image}
   alt={product.title}
+  style={{
+    width: 350,
+    height: 300,
+    padding:10,
+    objectFit: "cover"  /* crops/centers the image to fill the box */
+  }}
   onError={(e) => e.target.src = flower1} // Fallback if image is broken
   className="w-full h-auto object-cover rounded-md"
 />

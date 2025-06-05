@@ -115,8 +115,11 @@ const userId =localStorage.getItem("userId")
           <img
             src={productDetails?.image}
             alt={productDetails?.title}
-            width={600}
-            height={600}
+           style={{
+    width: 300,
+    height: 300,
+    objectFit: "cover"  /* crops/centers the image to fill the box */
+  }}
             className="aspect-square w-full object-cover"
           />
         </div>
