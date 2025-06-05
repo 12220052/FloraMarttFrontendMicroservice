@@ -1,0 +1,444 @@
+/* General Styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Flex Layout for App Container */
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+
+
+/* Sidebar Styles */
+.sidebarvendor{
+  width: 250px;
+  background-color: #81504D;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  justify-content: flex-end;
+
+}
+
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  width: 100%;
+  text-align: left;
+  display: block;
+  transition: 0.3s;
+}
+
+/* Sidebar Links */
+.sidebar-links {
+  color: white;
+  text-decoration: none;
+  padding: 12px 20px;
+  width: 100%;
+  margin-left: 25px; 
+  text-align: left;
+  display: block;
+  transition: 0.3s;
+  border-left: 3px solid transparent; /* Default border */
+}
+
+/* Hover Effect */
+.sidebar-link:hover {
+  
+  background-color: #6A3D3A;
+  border-left: 3px solid white; /* White border on hover */
+}
+
+/* Active Link Style */
+.sidebar-link.active {
+  border-left: 3px solid white; /* White border for active */
+  color: black; /* Change text to black */
+  background-color: #f5e1df; /* Light background */
+}
+
+/* Dashboard Container */
+.dashboard-container {
+  padding: 20px;
+  color: #5a2d26;
+}
+.dashboardv-title{
+  margin-bottom: 40px;
+}
+.dashboardv-title,
+.section-title {
+    text-align: left;
+    margin-left: 30px; /* Adjust this value for equal spacing */
+}
+.section-title {
+ color: #81504D;
+ padding-top: 20px;
+ padding-bottom: -30px;
+}
+.dashboardv-title span:first-child {
+  color: #5a2d26;
+}
+
+.dashboardv-title span:last-child {
+  color: #f5b3ad;
+}
+
+/* Main Content Styles */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Prevent horizontal scrolling */
+}
+
+
+/* Header styling */
+.header {
+  background-color: rgba(149, 147, 148, 0.2);
+  box-shadow: 0 2px 4px #F5B3AD;
+  padding: 35px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+  .stats-container {
+    display: flex;
+    justify-content: center; /* Center the cards */
+    align-items: center;
+    gap: 1.5rem; /* Adjust spacing between cards */
+    margin: auto;
+    margin: 10px;
+    margin-top: 20px;
+}
+
+.stats-grid {
+    display: flex;
+    gap: 5rem;
+    width: 100%; /* Ensure the grid takes full width */
+    justify-content: center; /* Align items properly */
+}
+
+.stats-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5b3ad;
+    padding: 1px;
+    border-radius: 10px;
+    text-align: center;
+    width: 20%; /* Fixed width to prevent stretching */
+    height: 100px; 
+    min-width: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+}
+.stats-card h3 {
+  color: #81504D;
+}
+
+.stats-card p {
+  font-size: 10px; /* Adjust font size */
+  font-weight: bold;
+  color: #81504D;
+  margin-bottom: -20px;
+}
+.stats-icon{
+  color: #81504D;
+  padding: 5px;
+  size: 40px;
+
+
+}
+  
+  /* Table Section */
+  .table-container {
+    background: rgba(149, 147, 148, 0.1);
+    margin: auto;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  /* Table Section */
+  .table-container1 {
+    justify-content: center;
+    background: rgba(149, 147, 148, 0.1);
+    margin-top: -6vh;
+    margin-bottom: 10px;
+    margin-right: 15px;
+    margin-left: 15px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .table-title {
+    font-size: 10px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #81504D;
+  }
+  
+  .table {
+    width: 100%;
+    padding: 0.1px;
+    border-collapse: collapse;
+    
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: center; /* Center align table headers and data */
+    border-bottom: 1px solid #ddd;
+    color: #81504D;
+  }
+  
+  th {
+    background-color: #f5e1df
+  }
+  
+/* Center icons inside buttons */
+.action-buttons {
+  display: flex;
+  justify-content: center; /* Center buttons horizontally */
+  align-items: center;
+  gap: 8px; /* Add space between buttons */
+  padding-left: 30px;
+}
+
+.action-btn, .view-btn, .delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; /* Adjust width */
+  height: 40px; /* Adjust height */
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Styling for delete button */
+.delete-btn {
+  background: none;
+  color: #A52727; /* Set icon color */
+  font-size: 18px;
+}
+
+/* Styling for view button */
+.view-btn {
+  background-color: #F5B3AD;
+  color: #81504D;
+  border: none;
+}
+
+/* Center the file icon */
+.file-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #81504D;
+  width: 100%; /* Ensures it fills the table cell */
+}
+
+.view-btn {
+  background-color: #F5B3AD;
+  color: #81504D;
+  border:#F5B3AD;
+  width: 60px;
+  height: 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  
+}
+
+  .edit-icon {
+    cursor: pointer;
+  }
+  
+  
+  .save-btn {
+    background-color: #28a745;
+    color: white;
+  }
+  .search-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 250px;
+    margin: 5px;
+    background: white;
+  }
+  
+  .search-icon {
+    color: #666;
+    margin-right: 5px;
+  }
+  
+  .search-bar {
+    border: none;
+    outline: none;
+    width: 100%;
+  }
+  /* Filter and Search Section */
+.filter-search-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.filter-dropdown {
+  height: 40px;  /* Match the height of the search bar */
+  font-size: 16px;  /* Match font size */
+  padding: 0 10px;  /* Match padding */
+  border-radius: 5px;  /* Round corners */
+  border: 1px solid #ddd;  /* Border styling */
+  margin-left: 10px;  /* Optional: Adds space between search and filter */
+}
+ 
+.logo {
+  width: 130px;
+  height: auto;
+  padding-Top: 40px;
+  padding-Bottom: 20px;
+}
+
+/* Sidebar General Styles */
+.sidebar {
+  width: 220px;
+  background-color: #81504D;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  height: 100vh;
+}
+
+.delete-icon{
+  color: #A52727;
+  margin-left: 10px;
+}
+
+.sidebar-logo {
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 130px;
+  height: auto;
+}
+
+/* Sidebar Links */
+.sidebar-links {
+  width: 100%;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  padding: 12px 10px;
+  width: 81%;
+  text-decoration: none;
+  color: white;
+  transition: 0.3s;
+  border-left: 3px solid transparent;
+}
+
+.link .icon {
+  margin-right: 10px;
+}
+
+.link:hover {
+  background-color: #6A3D3A;
+  width: 81%;
+  border-radius: 5px;
+}
+
+/* Active Link */
+.link.active {
+  color: black;
+  background-color: #f5e1df;
+  width: 81%;
+  border-radius: 5px;
+}
+
+/* Logout Button */
+.logout-btn {
+  margin-top: auto;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  padding: 30px 30px;
+  cursor: pointer;
+  width: 100%;
+  justify-content: center;
+  transition: 0.3s;
+}
+
+.logout-btn .icon {
+  margin-right: 10px;
+}
+
+.logout-btn:hover {
+  background-color: #6A3D3A;
+}
+/* Profile image styling */
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Role styling */
+.vendor {
+  color: #4CAF50;
+}
+
+.customer {
+  color: #03A9F4;
+}
+/* Pagination Section */
+.pagination {
+  display: flex;
+  justify-content: center;  /* Centers pagination buttons */
+  margin-top: 0.1px;  /* Adds margin on top */
+}
+
+.page-btn {
+  padding: 2px 7px;  /* Adds padding inside the buttons */
+  margin: 0 5px;  /* Adds space between buttons */
+  font-size: 14px;  /* Adjusts font size */
+  background-color: #f0f0f0;  /* Light background color */
+  border: 1px solid #ddd;  /* Border around buttons */
+  border-radius: 5px;  /* Rounds the corners of the buttons */
+  color: #333;  /* Text color */
+  cursor: pointer;  /* Makes cursor a pointer to indicate it's clickable */
+  transition: background-color 0.3s ease, color 0.3s ease;  /* Smooth transition for hover and active states */
+}
+
+.page-btn:hover {
+  background-color: #81504D;  /* Darker background on hover */
+  color: white;  /* White text on hover */
+}
+
+.page-btn.active {
+  background-color: #81504D;  /* Active page button gets highlighted */
+  color: white;  /* White text for active button */
+  font-weight: bold;  /* Makes the active page number bold */
+}
+
+.page-btn:disabled {
+  background-color: #f5f5f5;  /* Disabled button background */
+  cursor: not-allowed;  /* Changes cursor to show it's not clickable */
+  color: #aaa;  /* Disabled button text color */
+}

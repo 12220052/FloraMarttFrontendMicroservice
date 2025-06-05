@@ -1,0 +1,128 @@
+/* SETTINGS PAGE STYLES */
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    height: 100%;
+    overflow-y: auto;
+  }
+  
+  .settings-header {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .profile-section {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .profile-picture-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+  }
+  
+  .profile-picture-container img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #d4a373;
+  }
+  
+  .profile-upload-button {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    background-color: #d4a373;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    opacity: 0.9;
+    transition: 0.3s ease;
+  }
+  
+  .profile-upload-button:hover {
+    opacity: 1;
+  }
+  
+  .edit-toggle {
+    text-align: right;
+    margin-bottom: 1rem;
+  }
+  
+  .disabled-input input {
+    background-color: #f0f0f0 !important;
+    color: #888;
+    cursor: not-allowed;
+  }
+  
+  .password-section {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #ddd;
+  }
+  
+  .password-section h3 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: #555;
+  }
+  
+  .password-field {
+    margin-bottom: 1rem;
+  }
+  
+  .error-message {
+    font-size: 0.8rem;
+    color: red;
+    margin-top: -0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .settings-buttons {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .settings-buttons .MuiButton-root {
+    text-transform: none;
+    font-weight: 500;
+    padding: 8px 24px;
+    border-radius: 8px;
+  }
+  
+  .MuiButton-containedPrimary {
+    background-color: #6a994e;
+  }
+  
+  .MuiButton-containedSecondary {
+    background-color: #bc4749;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .profile-section {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .profile-picture-container {
+      margin-bottom: 1rem;
+    }
+  
+    .edit-toggle {
+      text-align: left;
+    }
+  }
+  

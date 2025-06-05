@@ -1,0 +1,167 @@
+/* Section Title */
+.section-title {
+    font-size: 20px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    padding: 3px;
+  }
+  
+  /* Action Buttons */
+  .action-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Space between icons */
+  }
+  
+  /* Table Container */
+  .table-container {
+    margin: 2px;
+  }
+  
+  /* Material UI Card */
+  .MuiCard-root {
+    margin-bottom: 5px !important;
+    background-color: #f9f9f9;
+    border: 2px solid #0c0c0c;
+    border-radius: 10px;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .MuiCard-root:hover {
+    transform: scale(1.01);
+  }
+  
+  /* Card Content Layout */
+  .MuiCardContent-root {
+    display: flex;
+    flex-direction: column;
+    gap: 0.01px;
+  }
+  
+  /* Compact Layout Styles */
+  .compact-card-content .MuiTypography-root {
+    margin-bottom: -4px;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+  
+  .compact-card-content .MuiFormControl-root {
+    margin-top: 8px;
+    margin-bottom: 4px;
+  }
+  
+  .compact-card-content .action-buttons {
+    margin-top: 10px;
+    margin-bottom: -10px;
+    display: flex;
+    padding-left: 10px;
+    padding-right: 10px;
+    gap: 40px;
+    justify-content: center;
+  }
+  
+  /* Page Wrapper */
+  .order-page {
+    padding: 20px;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #fefefe;
+  }
+  
+  /* Sticky Title */
+  .fixed-title {
+    font-size: 24px;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ccc;
+  }
+  
+  /* Top Controls Section */
+  .top-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+  }
+  
+  /* Tabs Section */
+  .tabs {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .tab-button {
+    border: none;
+    background-color: transparent;
+    font-weight: bold;
+    padding: 5px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #555;
+    transition: background-color 0.2s ease;
+  }
+  
+  .tab-button:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .tab-button.active {
+    background-color: #81504D;
+    color: white;
+  }
+  
+  /* Search Bar */
+  .search-bar {
+    min-width: 200px;
+    justify-self: right;
+    display: flex;
+    margin-right: -20px;
+  }
+  
+  /* Scrollable Orders Section */
+  .orders-scroll {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 15px;
+    max-height: 75vh;
+    overflow-y: auto;
+    padding-right: 5px;
+  }
+  
+
+  /* Label and Value Pair */
+  .label {
+    color: #81504D;
+    font-weight: 500;
+  }
+  
+  .value {
+    color: #F5B3AD;
+    margin-left: 4px;
+  }
+  
+  /* Custom Button Colors */
+  .action-buttons .MuiButton-containedPrimary {
+    background-color: #F5B3AD;
+    color: white;
+  }
+  
+  .action-buttons .MuiButton-containedPrimary:hover {
+    background-color: #e79991;
+  }
+  
+  .action-buttons .MuiButton-containedSecondary {
+    background-color: #A52727;
+    color: white;
+  }
+  
+  .action-buttons .MuiButton-containedSecondary:hover {
+    background-color: #8d1f1f;
+  }
+  

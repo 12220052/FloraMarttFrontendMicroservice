@@ -15,9 +15,9 @@ function ShoppingProductTile({
     <Card className="w-full max-w-sm mx-auto text-[#81504D]">
     <div onClick={() => handleGetProductDetails(product?._id)}>
       <div className="relative">
-        
+      
       <img
-  src={`http://localhost:8765/USERMICROSERVICE/flowers/${product.image}`}
+  src={product.image}
   alt={product.title}
   onError={(e) => e.target.src = flower1} // Fallback if image is broken
   className="w-full h-auto object-cover rounded-md"

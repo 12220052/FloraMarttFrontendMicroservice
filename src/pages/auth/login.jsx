@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 import { Provider, useDispatch } from "react-redux";
@@ -10,6 +10,7 @@ import logo from "../../assets/logo.png";
 // ==========================
 // API SLICE - useLoginMutation
 // ==========================
+
 const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
@@ -38,6 +39,7 @@ const authSlice = createSlice({
     setCredentials: (state, action) => {
       state.userInfo = action.payload;
       localStorage.setItem("userInfo", JSON.stringify(action.payload));
+      localStorage.setItem("AuthToken", action.payload.token); // Store token in localStorage
     },
   },
 });
@@ -69,6 +71,20 @@ const AuthLogin = () => {
 
   const [login] = useLoginMutation();
 
+ const handleRoleRedirect = (user) => {
+  const roles = user?.authorities?.map((a) => a.authority) || [];
+
+  if (roles.includes('Admin')) {
+      console.log("dfghjk")
+    navigate("/admin/admindashboard");
+  } else if (roles.includes('Vendor')) {
+      console.log("dfghjk")
+    navigate("/vendor/vendordashboard");
+  } else {
+    console.log("dfghjk")
+    navigate("/shop/home"); // Add this route to App.jsx if not already present
+  } 
+};
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
@@ -85,7 +101,7 @@ const AuthLogin = () => {
 //  localStorage.setItem("AuthToken",token)
       // Redirect to /shop/home after 3 seconds
       setTimeout(() => {
-        navigate("/shop/home");
+      handleRoleRedirect(res.user);
       }, 3000);
     } catch (err) {
       console.error(err);
@@ -171,16 +187,19 @@ const AuthLogin = () => {
             {error && (
               <p style={{ color: "red", fontSize: "12px" }}>{error}</p>
             )}
-            <p
+             <p
               style={{
-                fontSize: "12px",
-                color: "#744f41",
-                marginTop: "10px",
-                cursor: "pointer",
-                marginLeft: "200px",
+                fontSize: '12px',
+                color: '#744f41',
+                marginTop: '10px',
+                cursor: 'pointer',
+                marginLeft: '200px',
+                textDecoration: 'underline',
               }}
+              onClick={() => navigate('/auth/forgot-password')}
             >
               Forgot password?
+           
                <span
                 onClick={() => navigate("/auth/usersignup")}
                 style={{ textDecoration: "underline", cursor: "pointer",marginLeft:"10px"}}
