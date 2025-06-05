@@ -407,8 +407,8 @@
 
 // export default UserProfile;
 
-import React, { useState, useEffect } from 'react';
-import { FaEnvelope, FaUser, FaPhoneAlt, FaCamera } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import { FaEnvelope, FaUser, FaCamera } from 'react-icons/fa';
 import { MdEdit } from 'react-icons/md';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -492,12 +492,6 @@ try {
      const formData = new FormData();
     formData.append('name', profile.name);
     formData.append('email', profile.email);
-    if (imageFile) {
-  formData.append("photo",imageFile);
-}
-for (let [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
   const response = await fetch(`http://localhost:8765/USERMICROSERVICE/api/users/${userId}`, {
     method: 'PUT',
     body:formData
@@ -625,10 +619,10 @@ for (let [key, value] of formData.entries()) {
 
         <div className="md:flex md:gap-10">
           <div className="flex flex-col items-center mb-6 md:mb-0 md:w-1/3">
-            <label className="relative cursor-pointer">
-              {/* {profile.photo ? (
+            {/* <label className="relative cursor-pointer">
+              {profile.image ? (
                 <img
-                  src={`http://localhost:8765/USERMICROSERVICE/images/${profile.photo}`}
+                  src={profile.image}
                   alt="Profile"
                   className="rounded-full w-40 h-40 object-cover border"
                 />
@@ -636,18 +630,7 @@ for (let [key, value] of formData.entries()) {
                 <div className="bg-gray-200 rounded-full w-40 h-40 flex items-center justify-center">
                   <FaCamera className="text-[#81504D] text-2xl" />
                 </div>
-              )} */}
-{imagePreview ? (
-  <img
-    src={imagePreview}
-    alt="Profile"
-    className="rounded-full w-40 h-40 object-cover border"
-  />
-) : (
-  <div className="bg-gray-200 rounded-full w-40 h-40 flex items-center justify-center">
-    <FaCamera className="text-[#81504D] text-2xl" />
-  </div>
-)}
+              )}
 
               {isEditing && (
                 <div className="absolute bottom-2 right-2 bg-white p-2 rounded-full shadow">
@@ -836,4 +819,3 @@ for (let [key, value] of formData.entries()) {
 };
 
 export default UserProfile;
-
