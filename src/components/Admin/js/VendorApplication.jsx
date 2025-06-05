@@ -11,10 +11,10 @@ const VendorApplication = () => {
   const [showApproveConfirm, setShowApproveConfirm] = useState(false);
   const [showRejectConfirm, setShowRejectConfirm] = useState(false);
 
-const tokeninfo = localStorage.getItem("userInfo");
-const tokenData = JSON.parse(tokeninfo);
-const token = tokenData.jwt;
-console.log("Token:", tokenData.jwt);
+  const tokeninfo = localStorage.getItem("userInfo");
+  const tokenData = JSON.parse(tokeninfo);
+  const token = tokenData.jwt;
+  console.log("Token:", tokenData.jwt);
   useEffect(() => {
     fetch("http://localhost:8765/USERMICROSERVICE/api/users", {
       headers: {
@@ -132,11 +132,11 @@ console.log("Token:", tokenData.jwt);
   };
 
   return (
-   <div className="app-container flex h-screen">
+    <div className="app-container flex h-screen">
       <Sidebar />
       <div className="main-content flex-1 p-4">
         <header className="header bg-white shadow p-4 flex justify-between items-center border-b-2 border-black"></header>
-         <h2 className="dashboard-title" style={{ fontSize: "30px", fontWeight: "bold" }}>
+        <h2 className="dashboard-title" style={{ fontSize: "30px", fontWeight: "bold" }}>
           <span className="title-bold">Vendor</span>
           <span className="title-light">Applications</span>
         </h2>
@@ -187,7 +187,7 @@ console.log("Token:", tokenData.jwt);
                       <FaEye /> View
                     </button>
                   </td>
-                     <td className="action">
+                  <td className="action">
                     <button
                       className="delete-btn"
                       onClick={() => setShowDeleteConfirm(app.id)}
@@ -212,12 +212,13 @@ console.log("Token:", tokenData.jwt);
               <h2 className="modal-title">
                 Vendor <span className="highlight">Details</span>
               </h2>
-              <p><strong>Name:</strong> {selectedVendor.storeName}</p>
-              <p><strong>Phone:</strong> {selectedVendor.phone}</p>
-              <p><strong>License No:</strong> {selectedVendor.license_No}</p>
-              <p><strong>Status:</strong> {selectedVendor.status}</p>
-
-              <div className="modal-buttons mt-4">
+              <div className="approve-modal" style={{ padding: "20px", textAlign: "left", marginTop: "20px" }}>
+                <p><strong>Name:</strong> {selectedVendor.storeName}</p>
+                <p><strong>Phone:</strong> {selectedVendor.phone}</p>
+                <p><strong>License No:</strong> {selectedVendor.license_No}</p>
+                <p><strong>Status:</strong> {selectedVendor.status}</p>
+              </div>
+              <div className="modal-buttons mt-6 flex gap-40">
                 <button
                   className="yes"
                   onClick={() => setShowApproveConfirm(true)}
