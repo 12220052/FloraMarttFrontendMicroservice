@@ -12,8 +12,8 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^7.1.1",
-    "@mui/material": "^5.15.13",
+    "@mui/icons-material": "5.11.16",
+    "@mui/material": "^5.17.1",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-checkbox": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.1",
@@ -38,10 +38,7 @@
     "react-router-dom": "^6.26.1",
     "react-toastify": "^11.0.5",
     "tailwind-merge": "^2.5.2",
-    "tailwindcss-animate": "^1.0.7",
-    "@mui/material": "^5.15.13",
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0"
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
