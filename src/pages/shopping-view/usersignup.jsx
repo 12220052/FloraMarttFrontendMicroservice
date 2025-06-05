@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UserSignup = () => {
   const navigate = useNavigate();
@@ -75,18 +77,45 @@ const UserSignup = () => {
         body: form,
       });
   
-      if (response.ok) {
-        const result = await response.json();
-        console.log("User created:", result);
-        navigate("/auth/login");
-      } else {
-        const errorData = await response.json();
-        setError(errorData.message || "Signup failed");
-      }
-    } catch (err) {
-      console.error(err);
-      setError("An error occurred during signup");
-    }
+   if (response.ok) {
+  const result = await response.json();
+  console.log("User created:", result);
+
+  toast.success("Signup successful! You can now log in.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+setTimeout(() => {
+  navigate("/auth/login");
+}, 3000)
+} else {
+  const errorData = await response.json();
+  setError(errorData.message || "Signup failed");
+
+  toast.error(errorData.message || "Signup failed. Please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+}
+
+} catch (err) {
+  console.error(err);
+  setError("An error occurred during signup");
+
+  toast({
+    title: "Error",
+    description: "An error occurred. Please try again.",
+    variant: "destructive",
+  });
+}
   };
   
   return (
@@ -99,6 +128,7 @@ const UserSignup = () => {
         backgroundColor: "#f9f5f3",
       }}
     >
+       <ToastContainer /> 
       <div
         style={{
           display: "flex",
@@ -186,6 +216,15 @@ const UserSignup = () => {
                 style={{ textDecoration: "underline", cursor: "pointer" }}
               >
                 Login
+              </span>
+            </p>
+             <p style={{ fontSize: "12px", marginTop: "15px", textAlign: "center", color: "#744f41" }}>
+           
+              <span
+                onClick={() => navigate("/auth/storesignup")}
+                style={{ textDecoration: "underline", cursor: "pointer" }}
+              >
+                 Sign in to expand your flower business?{" "}
               </span>
             </p>
           </form>

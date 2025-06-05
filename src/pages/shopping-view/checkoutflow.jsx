@@ -303,7 +303,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import CheckoutForm from "./stripeCheckoutform";
 import StripeWrapper from "./stripeWrapper";
-
+import { useNavigate } from 'react-router-dom';
 
 const useGoogleMaps = () => {
   const [loaded, setLoaded] = useState(false);
@@ -357,6 +357,11 @@ console.log(customerEmail)
       setStep(newStep);
     }
   };
+const navigate = useNavigate();
+
+const nextStep1 = () => {
+  navigate("/shop/account");  // navigate to account page on success
+};
 
   const nextStep = () => setStep((prev) => prev + 1);
 
@@ -577,8 +582,7 @@ const getLocationNameFromCoordinates = (lat, lng) => {
       <StepIndicator />
       <div className="bg-[#FFF2F0] p-6 rounded-lg w-full space-y-4">
         {[
-          { method: 'Credit/Debit card', icon: '💳' },
-          { method: 'Cash', icon: '💵' },
+       
           { method: 'Stripe', icon: '🅿️' },
         ].map(({ method, icon }) => (
           <label
@@ -599,29 +603,7 @@ const getLocationNameFromCoordinates = (lat, lng) => {
           </label>
         ))}
 
-        {paymentMethod === 'Stripe' && (
-         
-  //           <StripeWrapper>
-  //   <CheckoutForm amount={total} address={address} onSuccess={nextStep} />
-  // </StripeWrapper>
-  <StripeWrapper>
-  <CheckoutForm
-    amount={total}
-    address={address}
-    customerEmail={customerEmail} // Replace with real email if available
-    deliveryOption={deliveryOption}
-    paymentMethod={paymentMethod}
-    shopId={shopId}
-    items={cartItems.map(item => ({
-      productName: item.flower.name,
-      quantity: item.quantity,
-      price: item.flower.salePrice > 0 ? item.flower.salePrice : item.flower.price
-    }))}
-    onSuccess={nextStep}
-  />
-</StripeWrapper>
-
-        )}
+      
       </div>
 
       {paymentMethod !== 'Credit/Debit card' && (
@@ -701,6 +683,26 @@ const getLocationNameFromCoordinates = (lat, lng) => {
             <span>Nu.{total.toFixed(2)}</span>
           </div>
         </div>
+          {paymentMethod === 'Stripe' && (
+         
+  <StripeWrapper>
+  <CheckoutForm
+    amount={total}
+    address={address}
+    customerEmail={customerEmail} // Replace with real email if available
+    deliveryOption={deliveryOption}
+    paymentMethod={paymentMethod}
+    shopId={shopId}
+    items={cartItems.map(item => ({
+      productName: item.flower.name,
+      quantity: item.quantity,
+      price: item.flower.salePrice > 0 ? item.flower.salePrice : item.flower.price
+    }))}
+    onSuccess={nextStep1}
+  />
+</StripeWrapper>
+
+        )}
       </div>
     </div>
   );

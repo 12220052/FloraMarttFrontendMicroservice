@@ -181,7 +181,14 @@ const AuthLogin = () => {
               }}
             >
               Forgot password?
+               <span
+                onClick={() => navigate("/auth/usersignup")}
+                style={{ textDecoration: "underline", cursor: "pointer",marginLeft:"10px"}}
+              >
+                 Sign in?{" "}
+              </span>
             </p>
+            
             <button
               type="submit"
               style={{

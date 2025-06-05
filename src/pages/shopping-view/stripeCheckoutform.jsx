@@ -11,6 +11,40 @@ const CheckoutForm = ({ amount, address, customerEmail, deliveryOption, paymentM
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false);
+  const [modalMessage, setModalMessage] = React.useState("");
+const [showModal, setShowModal] = React.useState(false);
+function Modal({ message, onClose }) {
+  return (
+    <div
+      style={{
+        position: "fixed",
+        top: 0, left: 0, right: 0, bottom: 0,
+        backgroundColor: "rgba(0,0,0,0.5)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: 1000,
+      }}
+      onClick={onClose}
+    >
+      <div
+        style={{
+          backgroundColor: "white",
+          padding: 20,
+          borderRadius: 8,
+          maxWidth: "80%",
+          boxShadow: "0 2px 10px rgba(0,0,0,0.3)",
+        }}
+        onClick={(e) => e.stopPropagation()} // Prevent modal close on content click
+      >
+        <p>{message}</p>
+        <button onClick={onClose} style={{ marginTop: 15 }}>
+          Close
+        </button>
+      </div>
+    </div>
+  );
+}
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,8 +90,10 @@ const CheckoutForm = ({ amount, address, customerEmail, deliveryOption, paymentM
           shopId,
           items
         });
+   alert("Payment processing failed. Please try again.");
+        setModalMessage("Payment successful! Order placed.");
+setShowModal(true);
 
-        alert("Payment successful! Order placed.");
         onSuccess();
       } else {
         alert("Payment processing failed. Please try again.");

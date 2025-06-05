@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"; // We'll use axios for making the POST request
 import logo from "../../assets/logo.png";
-
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Signup = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -57,25 +58,51 @@ const Signup = () => {
     userData.append("password",password)
   
 
-    try {
-      setLoading(true);
-      setError(""); // Reset error if the user tries again
+ try {
+  setLoading(true);
+  setError("");
 
-      // Make the POST request to the backend to register the user
-      const response = await axios.post("http://localhost:8765/USERMICROSERVICE/api/users", userData, {
-     
-      });
+  const response = await axios.post("http://localhost:8765/USERMICROSERVICE/api/users", userData);
 
-      if (response.status === 200) {
-        // On successful signup, navigate to the login page
-        navigate("/auth/login");
-      }
-    } catch (err) {
-      // setError("An error occurred during signup. Please try again.");
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
+  if (response.status === 200 || response.status === 201) {
+    const result = response.data;
+    console.log("User created:", result);
+
+    toast.success("Signup successful! Wait for Approval.", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+
+    setTimeout(() => {
+      navigate("/auth/login");
+    }, 3000);
+  } else {
+    setError("Signup failed. Please try again.");
+
+    toast.error("Signup failed. Please try again.", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+  }
+} 
+ catch (err) {
+     console.error(err);
+     setError("An error occurred during signup");
+   
+     toast({
+       title: "Error",
+       description: "An error occurred. Please try again.",
+       variant: "destructive",
+     });
+   }
   };
 
   return (
@@ -88,11 +115,12 @@ const Signup = () => {
         backgroundColor: "#f9f5f3",
       }}
     >
+       <ToastContainer /> 
       <div
         style={{
           display: "flex",
           width: "900px",
-          height: "600px",
+          height: "1200px",
           background: "white",
           borderRadius: "12px",
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
@@ -224,6 +252,15 @@ const Signup = () => {
                 style={{ textDecoration: "underline", cursor: "pointer" }}
               >
                 Login
+              </span>
+            </p>
+              <p style={{ fontSize: "12px", marginTop: "15px", textAlign: "center", color: "#744f41" }}>
+           
+              <span
+                onClick={() => navigate("/auth/usersignup")}
+                style={{ textDecoration: "underline", cursor: "pointer" }}
+              >
+                 Sign in to purchase the best flowers?{" "}
               </span>
             </p>
           </form>

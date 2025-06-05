@@ -24,12 +24,14 @@ import { useEffect, useState } from "react";
 import { fetchCartItems } from "@/store/shop/cart-slice";
 import { Label } from "../ui/label";
 import logo from "../../assets/logo.png"
-
+import defaultProfile from "../../assets/profile3.jpg";
 function MenuItems() {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
 const userId = localStorage.getItem("userId")
+
+      
   const filteredMenuItems = shoppingViewHeaderMenuItems.filter((menuItem) =>
     ["home", "products", "contact"].includes(menuItem.id)
   );
@@ -37,6 +39,7 @@ const userId = localStorage.getItem("userId")
   function handleNavigate(menuItem) {
     navigate(menuItem.path);
   }
+ 
 
   return (
     <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row text-[#81504D]">
@@ -63,10 +66,18 @@ function HeaderRightContent() {
   const dispatch = useDispatch();
 const userId = localStorage.getItem("userId")
 console.log("cartItems",cartItems)
+
+  const userInfoString = localStorage.getItem("userInfo");
+   const userInfo = JSON.parse(userInfoString);
+   console.log("userinfo", userInfo);
 // console.log("userid",userId)
-  function handleLogout() {
-    dispatch(logoutUser());
-  }
+ function handleLogout() {
+  // Remove user data from localStorage
+  localStorage.removeItem('userId');
+  localStorage.removeItem('userInfo');
+
+  navigate('/auth/login');
+}
 
   useEffect(() => {
     dispatch(fetchCartItems(userId));
@@ -98,13 +109,18 @@ console.log("cartItems",cartItems)
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Avatar className="bg-primary">
+              <img
+    src={userInfo?.avatarUrl || defaultProfile}
+    alt="User avatar"
+    className="rounded-full object-cover w-full h-full"
+  />
             <AvatarFallback className="bg-primary text-white font-extrabold">
-              {user?.userName[0].toUpperCase()}
+          
             </AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent side="right" className="w-56 text-[#81504D]">
-          <DropdownMenuLabel>Logged in as {user?.userName}</DropdownMenuLabel>
+          <DropdownMenuLabel>Logged in as {userInfo.user?.name}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => navigate("/shop/account")}>
             <UserCog className="mr-2 h-4 w-4 text-[#81504D]" />
