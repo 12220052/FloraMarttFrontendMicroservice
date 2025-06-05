@@ -6,12 +6,36 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (email) {
-      navigate("/auth/enter-otp");
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (email) {
+  //     navigate("/auth/enter-otp");
+  //   }
+  // };
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (email) {
+    try {
+      const response = await fetch(`http://localhost:8765/USERMICROSERVICE/api/users/reset-password?email=${encodeURIComponent(email)}`, {
+        method: "POST",
+       
+      });
+
+      if (response.ok) {
+        // Navigate only if email is successfully processed
+        navigate("/auth/login");
+      } else {
+        const errorData = await response.json();
+        alert("Failed to send OTP: " + (errorData.message || "Unknown error"));
+      }
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+      alert("Something went wrong. Please try again later.");
     }
-  };
+  }
+};
 
   return (
     <div style={styles.wrapper}>
@@ -30,7 +54,7 @@ const ForgotPassword = () => {
             />
             <FaEnvelope style={styles.icon} />
           </div>
-          <p style={styles.hint}>**You will receive an OTP via email</p>
+          <p style={styles.hint}>**You will receive an temporary password via email</p>
           <button type="submit" style={styles.button}>Confirm</button>
         </form>
       </div>

@@ -198,14 +198,21 @@ const AuthLogin = () => {
               }}
               onClick={() => navigate('/auth/forgot-password')}
             >
-              Forgot password?
+              Forgot password?{" "}
            
-               <span
-                onClick={() => navigate("/auth/usersignup")}
-                style={{ textDecoration: "underline", cursor: "pointer",marginLeft:"10px"}}
-              >
-                 Sign in?{" "}
-              </span>
+           <span
+  onClick={(e) => {
+    e.stopPropagation();
+    navigate("/auth/usersignup");
+  }}
+  style={{
+    textDecoration: "underline",
+    cursor: "pointer",
+    marginLeft: "10px",
+  }}
+>
+  Sign in?
+</span>
             </p>
             
             <button

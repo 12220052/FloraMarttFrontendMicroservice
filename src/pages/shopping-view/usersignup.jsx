@@ -10,6 +10,7 @@ const UserSignup = () => {
     Name: "",
     email: "",
     password: "",
+    file: null,
     Phone:"",
     confirmPassword: "",
     agree: false,
