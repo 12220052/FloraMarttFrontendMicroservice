@@ -217,7 +217,7 @@ for (let [key, value] of formData.entries()) {
         <div className="md:flex md:gap-10">
           <div className="flex flex-col items-center mb-6 md:mb-0 md:w-1/3">
             <label className="relative cursor-pointer">
-              {/* {profile.photo ? (
+              {profile.photo ? (
                 <img
                   src={`http://localhost:8765/USERMICROSERVICE/images/${profile.photo}`}
                   alt="Profile"
@@ -227,8 +227,8 @@ for (let [key, value] of formData.entries()) {
                 <div className="bg-gray-200 rounded-full w-40 h-40 flex items-center justify-center">
                   <FaCamera className="text-[#81504D] text-2xl" />
                 </div>
-              )} */}
-{imagePreview ? (
+              )}
+{/* {imagePreview ? (
   <img
     src={imagePreview}
     alt="Profile"
@@ -238,7 +238,7 @@ for (let [key, value] of formData.entries()) {
   <div className="bg-gray-200 rounded-full w-40 h-40 flex items-center justify-center">
     <FaCamera className="text-[#81504D] text-2xl" />
   </div>
-)}
+)} */}
 
               {isEditing && (
                 <div className="absolute bottom-2 right-2 bg-white p-2 rounded-full shadow">
