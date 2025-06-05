@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { FaEnvelope, FaUser, FaPhoneAlt, FaCamera } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import { FaEnvelope, FaUser, FaCamera } from 'react-icons/fa';
 import { MdEdit } from 'react-icons/md';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,6 +11,9 @@ const UserProfile = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [passwordError, setPasswordError] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [imagePreview, setImagePreview] = useState(null);
+const [imageFile, setImageFile] = useState(null);
+
   const [passwordData, setPasswordData] = useState({
     old: '',
     new: '',
@@ -26,10 +29,13 @@ const UserProfile = () => {
   });
   const [originalProfile, setOriginalProfile] = useState({...profile});
 
-  const userId = localStorage.getItem("userId");
+  // const userId = localStorage.getItem("userId");
   const userinfo = localStorage.getItem("userInfo");
   console.log(userinfo);
-
+   const userInfo = JSON.parse(userinfo);
+      console.log("userinfo", userInfo);
+      const userId = userInfo.user.userId
+console.log(userId)
   useEffect(() => {
     // Get user info from localStorage
     const userInfoString = localStorage.getItem("userInfo");
@@ -37,7 +43,7 @@ const UserProfile = () => {
     if (userInfoString) {
       const userInfo = JSON.parse(userInfoString);
       console.log("userinfo", userInfo);
-      
+      const userId = userInfo.user.userId
       // Set basic profile info from localStorage
       setProfile(prev => ({
         ...prev,
@@ -77,6 +83,12 @@ try {
      const formData = new FormData();
     formData.append('name', profile.name);
     formData.append('email', profile.email);
+    if (imageFile) {
+  formData.append("photo",imageFile);
+}
+for (let [key, value] of formData.entries()) {
+      console.log(`${key}:, value`);
+    }
   const response = await fetch(`http://localhost:8765/USERMICROSERVICE/api/users/${userId}`, {
     method: 'PUT',
     body:formData
@@ -204,10 +216,10 @@ try {
 
         <div className="md:flex md:gap-10">
           <div className="flex flex-col items-center mb-6 md:mb-0 md:w-1/3">
-            {/* <label className="relative cursor-pointer">
-              {profile.image ? (
+            <label className="relative cursor-pointer">
+              {profile.photo ? (
                 <img
-                  src={profile.image}
+                  src={`http://localhost:8765/USERMICROSERVICE/images/${profile.photo}`}
                   alt="Profile"
                   className="rounded-full w-40 h-40 object-cover border"
                 />
@@ -216,6 +228,17 @@ try {
                   <FaCamera className="text-[#81504D] text-2xl" />
                 </div>
               )}
+{/* {imagePreview ? (
+  <img
+    src={imagePreview}
+    alt="Profile"
+    className="rounded-full w-40 h-40 object-cover border"
+  />
+) : (
+  <div className="bg-gray-200 rounded-full w-40 h-40 flex items-center justify-center">
+    <FaCamera className="text-[#81504D] text-2xl" />
+  </div>
+)} */}
 
               {isEditing && (
                 <div className="absolute bottom-2 right-2 bg-white p-2 rounded-full shadow">
@@ -223,22 +246,20 @@ try {
                 </div>
               )}
 
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                  const file = e.target.files[0];
-                  if (file) {
-                    setProfile((prev) => ({
-                      ...prev,
-                      image: URL.createObjectURL(file),
-                    }));
-                  }
-                }}
-                className="hidden"
-                disabled={!isEditing}
-              />
-            </label> */}
+            <input
+  type="file"
+  accept="image/*"
+  onChange={(e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);                      // Actual file for upload
+      setImagePreview(URL.createObjectURL(file)); // Preview URL
+    }
+  }}
+  className="hidden"
+  disabled={!isEditing}
+/>
+            </label>
 
             <div className="mt-6 space-y-3 text-center">
               <button
@@ -406,4 +427,3 @@ try {
 };
 
 export default UserProfile;
-
