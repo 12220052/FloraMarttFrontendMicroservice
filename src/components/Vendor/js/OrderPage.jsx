@@ -41,11 +41,13 @@ const OrderPage = () => {
         const allOrders = Object.values(response.data).flat();
 
         // Add default status if missing
-        const ordersWithStatus = allOrders.map((order) => ({
+        const ordersWithStatus = allOrders.map(order => ({
           ...order,
-          status: "Pending", // Default status
+          status:
+            order.orderStatus && order.orderStatus.length
+              ? order.orderStatus.charAt(0).toUpperCase() + order.orderStatus.slice(1).toLowerCase()
+              : "Pending",
         }));
-
         setOrderList(ordersWithStatus);
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -65,16 +67,6 @@ const OrderPage = () => {
 
   const handleUpdate = async () => {
     if (editProduct) {
-      // Update order list in state
-      setOrderList((prev) =>
-        prev.map((order) =>
-          order.id === editProduct.id
-            ? { ...order, status: editProduct.newStatus }
-            : order
-        )
-      );
-
-      // Make the API call to update the status
       try {
         const response = await fetch(
           `http://localhost:8765/ORDERMICROSERVICE/api/orders/update-status?orderId=${editProduct.id}`,
@@ -83,10 +75,17 @@ const OrderPage = () => {
             headers: {
               'Content-Type': 'application/json',
             },
+            body: JSON.stringify({ status: editProduct.newStatus.toLowerCase() }), // send new status here
           }
         );
 
         if (response.ok) {
+          // Update frontend state only after successful API call
+          setOrderList((prev) =>
+            prev.map((order) =>
+              order.id === editProduct.id ? { ...order, status: editProduct.newStatus } : order
+            )
+          );
           console.log('Order status updated successfully!');
         } else {
           console.error('Failed to update order status.');
@@ -95,7 +94,6 @@ const OrderPage = () => {
         console.error('Error updating order status:', error);
       }
 
-      // Close the confirmation modal and clear editProduct state
       setShowUpdateConfirm(false);
       setEditProduct(null);
     }
