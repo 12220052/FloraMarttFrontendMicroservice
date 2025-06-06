@@ -24,7 +24,7 @@ function ShoppingOrderDetailsView({ orderDetails }) {
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">Total Amount</span>
-              <Label>${orderDetails?.total_amount}</Label>
+              <Label>Nu.{orderDetails?.total_amount}</Label>
             </div>
           
             <div className="flex justify-between">

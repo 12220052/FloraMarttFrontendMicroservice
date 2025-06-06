@@ -14,6 +14,7 @@ import {
   Button,
 } from "@mui/material";
 import axios from "axios";
+import { Margin } from "@mui/icons-material";
 const OrderPage = () => {
   const [orderList, setOrderList] = useState([]);
   const [statusFilter, setStatusFilter] = useState("All");
@@ -144,7 +145,7 @@ const OrderPage = () => {
 
         </div>
         <div className="table-container">
-          <Box className="orders-scroll space-y-4">
+          <Box className="orders-scroll space-y-1 mt-50">
             {filteredOrders.map((order) => (
 
               <Card key={order.id} sx={{ minWidth: 150, padding: 1, boxShadow: 2, textAlign: "left", fontSize: 3 }}>

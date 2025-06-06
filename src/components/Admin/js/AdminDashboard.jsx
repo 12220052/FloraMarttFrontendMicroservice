@@ -22,7 +22,7 @@ const AdminDashboard = () => {
           <span className="title-bold">Admin</span>
           <span className="title-light">Panel</span>
         </h2>
-        <div className="statsadmin-container">
+        <div className="statsadmin-container" style={{gap:"80px"}}>
           <div className="stats-card">
             <FaUserCheck className="stats-icon" size={50} />
             <h3>Total Vendors</h3>

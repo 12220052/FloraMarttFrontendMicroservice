@@ -60,7 +60,7 @@ const VendorDashboard = () => {
         // Sort by createdAt or updatedAt
         const sortedOrders = allOrders
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-          .slice(0, 5); // 👈 Only latest 5
+          .slice(0, 4); // 👈 Only latest 5
 
         setOrders(sortedOrders);
       } catch (error) {

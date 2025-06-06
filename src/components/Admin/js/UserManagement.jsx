@@ -28,7 +28,7 @@ const UserManagement = () => {
     })
       .then((data) => {
         const filtered = data.filter((user) =>
-          user.roles.some((role) => role.name === "Vendor" || role.name === "Client")
+          user.roles.some((role) => role.name === "Vendor" && user.enabled === true || role.name === "Client")
         );
 
         const formatted = filtered.map((user) => ({
@@ -128,14 +128,11 @@ const handleDelete = async () => {
           <table className="table-containeruser">
             <thead>
               <tr>
-                <th>Profile</th>
                 <th>Name</th>
                 <th>Email ID</th>
                 <th>Registered Date</th>
-                <th>Registered No</th>
                 <th>Role</th>
                 <th>Contact No</th>
-                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -148,24 +145,13 @@ const handleDelete = async () => {
               ) : (
                 displayedUsers.map((user) => (
                   <tr key={user.id}>
-                    <td>
-                      <img src={user.profile} alt="Profile" className="profile-pic" />
-                    </td>
                     <td>{user.name}</td>
                     <td>{user.email}</td>
-                    <td>{user.registeredDate}</td>
                     <td>{user.regNo}</td>
                     <td className={user.role === "Vendor" ? "vendor" : "customer"}>
                       {user.role}
                     </td>
                     <td>{user.contact}</td>
-                    <td className="actions">
-                      <FaTrash
-                        className="delete-icon"
-                        title="Delete"
-                        onClick={() => setShowDeleteConfirm(user.id)}
-                      />
-                    </td>
                   </tr>
                 ))
               )}

@@ -199,18 +199,18 @@ const [sort, setSort] = useState(null);
    
       <div className="flex items-center gap-4">
   <div className="flex-1 text-[#81504D]">
-    <SearchProducts />
+    {/* <SearchProducts /> */}
   </div >
   <DropdownMenu>
     <DropdownMenuTrigger asChild >
-      <Button
+      {/* <Button
         variant="outline"
         size="sm"
         className="flex items-center gap-1"
       >
         <ArrowUpDownIcon className="h-4 w-4 fill-[#81504D]" />
         <span className="text-[#81504D]">Sort by</span>
-      </Button>
+      </Button> */}
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end" className="w-[200px]">
       <DropdownMenuRadioGroup value={sort} onValueChange={handleSort}>

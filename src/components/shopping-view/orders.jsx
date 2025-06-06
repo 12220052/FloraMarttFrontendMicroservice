@@ -187,7 +187,7 @@ console.log(orders)
                   </Badge>
                 </TableCell>
                 <TableCell>{order.deliveryOption}</TableCell>
-                <TableCell>${order.total_amount}</TableCell>
+                <TableCell>Nu.{order.total_amount}</TableCell>
                 <TableCell>{order.orderStatus}</TableCell>
                 <TableCell>
                   <Button

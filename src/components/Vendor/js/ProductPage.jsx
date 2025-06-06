@@ -155,7 +155,7 @@ const ProductPage = () => {
         <ToastContainer />
          <h2 className="dashboard-title" style={{ fontSize: "30px", fontWeight: "bold" }}>All <span className="font-light">Product</span></h2>
 
-        <div className="form-product-wrapper mt-2 max-h-[60vh] overflow-auto">
+        <div className="form-product-wrapper mt-1 max-h-[100vh] overflow-auto">
           <div className="top-controls my-4 flex gap-4 items-center justify-between">
             <div className="add-form w-2/3">
               <h3 className="text-lg font-semibold">Add New <span className="text-blue-500">Product</span></h3>
